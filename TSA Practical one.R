@@ -31,7 +31,6 @@ View(dataset)
 
 install.packages("forecast")
 
-# Load packages
 library(stats)
 library(forecast)
 
