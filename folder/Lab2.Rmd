@@ -1,0 +1,101 @@
+---
+title: "Practical 2: Analysis of Nottem Time Series Dataset"
+author: "Praveer Raj"
+date: "2026-02-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(datasets)
+library(stats)
+```
+
+# Practical 2: Analysis of Nottem Time Series Dataset
+
+**Praveer Raj**  
+**Roll:** 1  
+**Reg. No.:** 230957002
+
+---
+
+## 1. Title
+
+The “Nottem” dataset is available in the R library and contains historical time series observations. 
+Using this dataset, perform the following tasks: 
+(a) Write the R command to load the library in which the “Nottem” dataset is available. 
+
+(b) Write the R command to load the “Nottem” dataset into the R working environment. 
+
+(c) Write the appropriate R command to view the description of the dataset and briefly explain 
+the key characteristics of the data. 
+
+(d) Explain the nature of the data in terms of its sampling frequency.  
+
+(e) Plot the time series data and write your observations about the pattern of the data. 
+
+---
+
+## 2. Objective
+
+To load the built-in *nottem* dataset in R, study its characteristics, examine its sampling frequency, and analyze the time series pattern using graphical representation.
+
+---
+
+## 3. R Code
+
+```{r code, results='hide', fig.show='hide'}
+# (a) Load the library containing the dataset
+library(datasets)
+
+# (b) Load the nottem dataset
+data("nottem")
+
+# (c) View dataset description
+?nottem
+
+# (d) Check sampling frequency
+frequency(nottem)
+
+# (e) Plot the time series
+plot(
+  nottem,
+  main = "Monthly Average Air Temperatures at Nottingham Castle",
+  xlab = "Year",
+  ylab = "Temperature (°F)",
+  col = "red",
+  lwd = 2
+)
+```
+
+---
+
+## 4. Output
+
+### Sampling Frequency
+
+The sampling frequency of the dataset is:
+
+```{r freq-output, echo=FALSE}
+frequency(nottem)
+```
+
+### Time Series Plot
+
+```{r output-plot, echo=FALSE}
+plot(
+  nottem,
+  main = "Monthly Average Air Temperatures at Nottingham Castle",
+  xlab = "Year",
+  ylab = "Temperature (°F)",
+  col = "red",
+  lwd = 2
+)
+```
+
+---
+
+## 5. Conclusion
+
+The *nottem* dataset represents monthly average air temperatures recorded at Nottingham Castle. The time series exhibits a clear seasonal pattern with recurring peaks and troughs each year. The sampling frequency is 12, indicating monthly observations. The dominant component of the data is seasonality, along with slight variations over time.
+

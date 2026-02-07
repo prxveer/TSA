@@ -1,0 +1,97 @@
+---
+title: "Practical 3: Decomposition of AirPassengers Time Series Data"
+author: "Praveer Raj"
+date: "2026-02-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stats)
+```
+
+# Practical 4: Decomposition of AirPassengers Time Series Data
+
+**Praveer Raj**  
+**Roll:** 1  
+**Reg. No.:** 230957002
+
+---
+
+## 1. Title
+
+Consider the following datasets from the R library and write R code to decompose the 
+time-series data into its trend, seasonal, and residual components. Furthermore, identify 
+the dominating component(s) in the dataset:  
+
+(b) AirPassengers data
+---
+
+## 2. Objective
+
+To load the AirPassengers dataset, convert it into a time series object, visualize passenger trends over time, and decompose the data into trend, seasonal, and irregular components.
+
+---
+
+## 3. R Code
+
+```{r code, results='hide', fig.show='hide'}
+# Clear workspace
+rm(list = ls())
+
+# Load stats package
+library(stats)
+
+# Load AirPassengers dataset
+data(AirPassengers)
+
+# Convert to time series object
+air_ts <- ts(AirPassengers, start = c(1949, 1), frequency = 12)
+
+# Plot original data
+plot(air_ts,
+     main = "AirPassengers Time Series",
+     xlab = "Year",
+     ylab = "Number of Passengers")
+
+# Decompose the time series
+air_decomp <- decompose(air_ts)
+
+# Plot decomposed components
+plot(air_decomp)
+
+# Display decomposition values
+air_decomp
+```
+
+---
+
+## 4. Output
+
+### Original Time Series Plot
+
+```{r output-plot1, echo=FALSE}
+plot(air_ts,
+     main = "AirPassengers Time Series",
+     xlab = "Year",
+     ylab = "Number of Passengers")
+```
+
+### Decomposed Time Series Components
+
+```{r output-plot2, echo=FALSE}
+plot(air_decomp)
+```
+
+### Decomposition Values
+
+```{r output-values, echo=FALSE}
+air_decomp
+```
+
+---
+
+## 5. Conclusion
+
+The AirPassengers dataset shows a strong upward trend in the number of airline passengers over time. The decomposition reveals a pronounced seasonal pattern, with recurring peaks each year. The trend component indicates long-term growth in air travel, while the irregular component represents random fluctuations. This analysis demonstrates that the dataset contains both trend and seasonal characteristics.
+

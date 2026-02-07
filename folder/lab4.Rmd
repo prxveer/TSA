@@ -1,0 +1,170 @@
+---
+title: "Practical 4: Trend Analysis of US Population Time Series"
+author: "Praveer Raj"
+date: "2026-02-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(forecast)
+```
+
+# Practical 4: Trend Analysis of US Population Time Series
+
+**Praveer Raj**  
+**Roll:** 1  
+**Reg. No.:** 230957002
+
+---
+
+## 1. Title
+
+For a given dataset of the US Population (in millions), write the R code to: 
+(a) Import the data as a time series object. 
+(b) Identify the dominating component(s) in the data set. 
+(c) Apply a square root transformation to the original data set. 
+(d) Estimate the linear trend present in the data set. 
+(e) Remove the estimated linear trend from the data set. 
+ 
+ 
+ 
+ 
+ 
+Year Population 
+1970 3929214 
+1971 5308483 
+1972 7239881 
+1973 9638453 
+1974 12860702 
+1975 17063353 
+1976 23191876 
+1977 31443321 
+1978 38558371 
+1979 50189209 
+1980 62979666 
+1981 76212168 
+1982 92228496 
+1983 106021537 
+1984 123202624 
+1985 132164569 
+1986 151325798 
+1987 179323175 
+1988 203302031 
+1989 226542203 
+1990 248709873
+---
+
+## 2. Objective
+
+To analyze the US population time series by applying transformation, estimating the trend using linear regression, and examining the detrended series.
+
+---
+
+## 3. R Code
+
+```{r code, results='hide', fig.show='hide'}
+# Clear workspace
+rm(list = ls())
+
+library(forecast)
+
+year <- 1970:1990
+population <- c(
+  3929214, 5308483, 7239881, 9638453, 12860702,
+  17063353, 23191876, 31443321, 38558371, 50189209,
+  62979666, 76212168, 92228496, 106021537, 123202624,
+  132164569, 151325798, 179323175, 203302031,
+  226542203, 248709873
+)
+
+population_ts <- ts(population, start = 1970, frequency = 1)
+
+plot(population_ts,
+     main = "US Population Time Series",
+     xlab = "Year",
+     ylab = "Population")
+
+population_sqrt <- sqrt(population_ts)
+
+plot(population_sqrt,
+     main = "Square Root Transformed Population",
+     xlab = "Year",
+     ylab = "Sqrt(Population)")
+
+time_index <- time(population_ts)
+trend_model <- lm(population_ts ~ time_index)
+
+summary(trend_model)
+
+estimated_trend <- trend_model$fitted.values
+
+plot(population_ts,
+     main = "US Population with Estimated Trend",
+     xlab = "Year",
+     ylab = "Population")
+lines(estimated_trend, col = "red", lwd = 2)
+
+detrended_population <- population_ts - estimated_trend
+
+plot(detrended_population,
+     type = "o",
+     main = "Detrended US Population",
+     xlab = "Year",
+     ylab = "Population (Detrended)")
+```
+
+---
+
+## 4. Output
+
+### Original Time Series
+
+```{r output1, echo=FALSE}
+plot(population_ts,
+     main = "US Population Time Series",
+     xlab = "Year",
+     ylab = "Population")
+```
+
+### Square Root Transformation
+
+```{r output2, echo=FALSE}
+plot(population_sqrt,
+     main = "Square Root Transformed Population",
+     xlab = "Year",
+     ylab = "Sqrt(Population)")
+```
+
+### Estimated Trend with Regression Line
+
+```{r output3, echo=FALSE}
+plot(population_ts,
+     main = "US Population with Estimated Trend",
+     xlab = "Year",
+     ylab = "Population")
+lines(estimated_trend, col = "red", lwd = 2)
+```
+
+### Detrended Time Series
+
+```{r output4, echo=FALSE}
+plot(detrended_population,
+     type = "o",
+     main = "Detrended US Population",
+     xlab = "Year",
+     ylab = "Population (Detrended)")
+```
+
+### Regression Model Summary
+
+```{r output5, echo=FALSE}
+summary(trend_model)
+```
+
+---
+
+## 5. Conclusion
+
+The US population time series shows a strong upward linear trend. The square root transformation stabilizes variation in the data. Linear regression effectively estimates the trend component, and detrending removes long-term growth, allowing clearer observation of fluctuations. This analysis demonstrates how transformation and trend estimation help in understanding time series structure.
+

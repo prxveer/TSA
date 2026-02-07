@@ -1,0 +1,16 @@
+note down this format
+
+Practical 1:{Heading}
+
+Praveer Raj  
+Roll: 1  
+Reg. No.-230957002
+
+1. Title
+2. Objective
+3. R Code
+4. Output
+5. Conclusion
+
+now fix this "" accordingly
+impress the professor fetch max marks.

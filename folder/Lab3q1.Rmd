@@ -1,0 +1,99 @@
+---
+title: "Practical 3: Decomposition of Nottem Time Series Data"
+author: "Praveer Raj"
+date: "2026-02-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stats)
+```
+
+# Practical 3: Decomposition of Nottem Time Series Data
+
+**Praveer Raj**  
+**Roll:** 1  
+**Reg. No.:** 230957002
+
+---
+
+## 1. Title
+
+Consider the following datasets from the R library and write R code to decompose the 
+time-series data into its trend, seasonal, and residual components. Furthermore, identify 
+the dominating component(s) in the dataset:  
+
+(a) Nottem data 
+
+
+---
+
+## 2. Objective
+
+To load the *nottem* dataset, convert it into a time series object, visualize the original data, and decompose it into its trend, seasonal, and irregular components.
+
+---
+
+## 3. R Code
+
+```{r code, results='hide', fig.show='hide'}
+# Clear workspace
+rm(list = ls())
+
+# Load stats package
+library(stats)
+
+# Load nottem dataset
+data(nottem)
+
+# Convert to time series object
+nottem_ts <- ts(nottem, start = c(1920, 1), frequency = 12)
+
+# Plot original data
+plot(nottem_ts,
+     main = "Nottem Monthly Temperature Data",
+     xlab = "Year",
+     ylab = "Temperature")
+
+# Decompose the time series
+nottem_decomp <- decompose(nottem_ts)
+
+# Plot decomposed components
+plot(nottem_decomp)
+
+# Display decomposition values
+nottem_decomp
+```
+
+---
+
+## 4. Output
+
+### Original Time Series Plot
+
+```{r output-plot1, echo=FALSE}
+plot(nottem_ts,
+     main = "Nottem Monthly Temperature Data",
+     xlab = "Year",
+     ylab = "Temperature")
+```
+
+### Decomposed Time Series Components
+
+```{r output-plot2, echo=FALSE}
+plot(nottem_decomp)
+```
+
+### Decomposition Values
+
+```{r output-values, echo=FALSE}
+nottem_decomp
+```
+
+---
+
+## 5. Conclusion
+
+The decomposition of the *nottem* dataset separates the time series into trend, seasonal, and irregular components. A strong seasonal pattern is observed, reflecting recurring monthly temperature variations. The trend component shows gradual long-term changes, while the irregular component captures random fluctuations. This decomposition helps in understanding the structure of the time series data.
+
