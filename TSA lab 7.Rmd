@@ -1,0 +1,132 @@
+---
+title: "Practical–7 : Commercial Bank Real Estate Loans Analysis"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Practical–7 : Commercial Bank Real Estate Loans Analysis
+
+**Praveer Raj**  
+**Roll:** 1  
+**Reg. No.:** 230957002  
+
+---
+
+## 1. Title
+
+Time Series Analysis of Monthly Commercial Bank Real Estate Loans
+
+---
+
+## 2. Objective
+
+Practical-7:-
+
+Consider the monthly volume of commercial bank real estate loans (in billions of dollars) data
+set stored in a text file. Write the R program for the following:
+(f) Import data into the R environment.
+(g) Convert the data into a time series object.
+(h) Plot the data to identify the dominant component.
+(i) Check stationarity or non-stationarity using ACF/PACF plot.
+(j) Check stationarity or non-stationarity using the Augmented Dickey-Fuller (ADF) test.
+(k) If data is non-stationary, make it stationary using an appropriate operator.
+(l) Based on the dominating component, select the suitable model to fit the data and finalize
+the order of the model using ACF/PACF plots with model selection criteria such as AIC.
+(m) Fit the data using the selected model and estimate the parameters of the model.
+(n) Check the goodness of fit of the model. 
+
+
+---
+
+## 3. R Code
+
+```{r}
+############################################################
+# Practical-7 : Commercial Bank Real Estate Loans Analysis
+############################################################
+
+# Import data from text file
+bank_data <- scan("bank_case.txt")
+head(bank_data)
+
+# Convert to monthly time series
+bank_ts <- ts(bank_data, frequency = 12)
+
+# Plot original series
+plot(bank_ts,
+     main = "Monthly Commercial Bank Real Estate Loans",
+     ylab = "Loans (Billion Dollars)",
+     xlab = "Time",
+     col = "blue")
+
+# ACF and PACF
+par(mfrow = c(1, 2))
+acf(bank_ts, main = "ACF of Bank Loan Data")
+pacf(bank_ts, main = "PACF of Bank Loan Data")
+par(mfrow = c(1, 1))
+
+# ADF Test
+library(tseries)
+adf.test(bank_ts)
+
+# First differencing
+bank_diff <- diff(bank_ts)
+
+plot(bank_diff,
+     main = "Differenced Bank Loan Time Series",
+     ylab = "Differenced Values",
+     col = "red")
+
+par(mfrow = c(1, 2))
+acf(bank_diff, main = "ACF of Differenced Data")
+pacf(bank_diff, main = "PACF of Differenced Data")
+par(mfrow = c(1, 1))
+
+# ADF test after differencing
+adf.test(bank_diff)
+
+# Fit ARIMA model
+library(forecast)
+best_model <- auto.arima(bank_ts)
+summary(best_model)
+
+# Residual diagnostics
+res <- residuals(best_model)
+
+hist(res,
+     breaks = 20,
+     freq = TRUE,
+     col = "grey",
+     main = "Histogram of Residuals",
+     xlab = "Residuals",
+     ylab = "Frequency")
+
+curve(dnorm(x, mean(res), sd(res)) * length(res) *
+        diff(hist(res, plot = FALSE)$breaks)[1],
+      add = TRUE, col = "red", lwd = 2)
+
+acf(res, main = "ACF of Residuals")
+
+Box.test(res, lag = 12, type = "Ljung-Box")
+
+############################################################
+# 4. Output
+# The time series plot shows a clear trend component.
+# ACF and PACF plots indicate non-stationarity.
+# Augmented Dickey-Fuller test confirms the series is non-stationary.
+# First differencing makes the series stationary.
+# ARIMA model is selected using AIC.
+# Residuals show no significant autocorrelation.
+# Histogram of residuals is approximately normal.
+# Ljung-Box test confirms residuals behave like white noise.
+#
+# 5. Conclusion
+# The monthly commercial bank real estate loan data exhibits
+# non-stationary behavior due to the presence of a trend component.
+# Stationarity is achieved using first differencing.
+# An appropriate ARIMA model is fitted and validated through
+# residual diagnostics. The results confirm that the model
+# provides a good fit and is suitable for analyzing the given
+# time series.
+############################################################
